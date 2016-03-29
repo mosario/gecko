@@ -1,0 +1,59 @@
+:root { 
+  --blue: #0067B8;
+  --transparency_blue: rgba(0, 103, 184, 0.7);
+}
+html{
+	font-family: Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+a{
+	color: var(--blue);
+	text-decoration: none;
+}
+header{
+	width: 82%;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    padding-right: 10px;    
+    margin: auto;
+    font-size: 15px;
+    #welcome {
+        float: right;
+    }
+}
+ul{
+	list-style: none;
+	&.filter{
+		display: flex;
+		padding-left: 25px;
+		margin-bottom: 0;
+		margin-top: 40px;
+		> span{
+			margin-top: 10px;
+		}
+		> li{
+			float: left;
+			padding: 10px 2px;
+			color: var(--blue);
+			cursor: pointer;
+		}
+		> li:active, :focus{
+			color: #01599D;
+		}
+	}
+	&.pop_over{
+		padding-left: 30px;
+	    width: 260px;
+	    > li{
+	    	display: table-row;
+	    	> span{
+	    		padding-right: 20px;
+	    		display: table-cell;
+	    	}
+	    }
+	}
+}
+#ring_sizes{
+	color: var(--blue);
+	cursor: pointer;
+}
