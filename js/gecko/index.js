@@ -26,6 +26,7 @@ export default class App extends Component{
 			message: '',
 			open: false,
 			data: getAll(),
+			categories: categories(),
 			progress: false,
 			drop_down: '',
 			filtered: 0
@@ -81,17 +82,28 @@ export default class App extends Component{
 		   message: message
 		});
 	}
+	
+	categoriesUpdate = () => this.setState({categories: categories()})
+
 	render(){
+		let categories = this.state.categories;
 		return <Paper style={style.paper} zDepth={1}>
 			{this.state.progress ? <LinearProgress mode="indeterminate"/> : ''}
+			
+			<Form 
+				send={::this.handleForm}
+				snackbar={::this.handleSnackbarStatus}
+				categories={categories}
+				categoriesUpdate={::this.categoriesUpdate} />
 
-			<Form send={this.handleForm.bind(this)} />
-
-			<Filter filter={this.handleFilter.bind(this)} />
+			<Filter 
+				categories={categories}
+				filter={::this.handleFilter} />
 
 			<TableExampleSimple 
 				data={this.state.data} 
 				update={this.updateList.bind(this)}
+				categories={categories}
 				snackbar={this.handleSnackbarStatus.bind(this)}	 />
 
 	        <Message 

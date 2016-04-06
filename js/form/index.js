@@ -1,6 +1,10 @@
 import React, { Component, findDOMNode } from 'react';
 import {TextField, RaisedButton} from 'material-ui';
+import IconButton from 'material-ui/lib/icon-button';
+import ArrowDown from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-down';
+import ArrowUp from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-up';
 import DropDown from './drop_down';
+import EditCategories from './edit_categories';
 
 const style = {
 	main: {
@@ -15,6 +19,10 @@ const style = {
 	button: {
 		marginTop: 8,
 		marginLeft: 10
+	},
+	arrow: {
+		position:'absolute',
+		marginTop: 5
 	}
 };
 
@@ -24,7 +32,9 @@ export default class Form extends Component{
 		this.state = {
 			error: 0,
 			text: '',
-			drop_down: 2
+			drop_down: 2,
+			dialog: false,
+			categories: this.props.categories
 		}
 		this.handleClick = this.handleClick.bind(this);
 	}
@@ -46,21 +56,39 @@ export default class Form extends Component{
 	}
 
 	handleDropDown = (drop_down) => {this.setState({drop_down: drop_down})}
+	
+	handleDialog = () => {this.setState({dialog:!this.state.dialog})}
+
+	handleUpdateCategories = () => this.props.categoriesUpdate()
+
+	componentWillReceiveProps = (nextState) => this.setState({categories: nextState.categories})
 
 	render(){
+		let categories = this.state.categories;
 		return <div style={style.main}>
+
+				<EditCategories 
+					open={this.state.dialog}
+					handleDialog={::this.handleDialog}
+					categories={categories}
+					update={::this.handleUpdateCategories}
+					snackbar={this.props.snackbar} />
+
 				<TextField 
 					ref="href"
 					hintText="Item link"
 					errorText={this.state.error ? this.state.text : ''}
 					style={style.text_field} />
 
-				<DropDown select={this.handleDropDown.bind(this)} />
+				<DropDown 
+					categories={categories}
+					select={::this.handleDropDown} 
+					dialog={::this.handleDialog} />
 
-				<RaisedButton 
+				<RaisedButton
 					label="Add" 
 					style={style.button} 
-					onClick={this.handleClick.bind(this)} />
+					onClick={::this.handleClick} />
 			</div>
 	}
 }

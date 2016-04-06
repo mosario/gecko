@@ -11,13 +11,18 @@ import $ from 'jquery';
 import ActionDelete from 'material-ui/lib/svg-icons/action/delete';
 import IconButton from 'material-ui/lib/icon-button';
 import PopOver from './pop_over';
-import {categories, deleted} from '../query';
+import {deleted} from '../query';
 
 const style = {
 	href: {
 		position: 'relative',
-		top: -15,
-		left: 10
+		top: -45,
+		left: 15
+	},
+	img: {
+		width: 100,
+    	height: 100,
+    	paddingTtop: 10
 	}
 }
 
@@ -25,7 +30,7 @@ export default class TableExampleSimple extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			categories: categories()
+			categories: this.props.categories
 		}		
 	}
 	handleDelete(i){
@@ -36,8 +41,12 @@ export default class TableExampleSimple extends Component{
 			this.props.snackbar('error');
 		}
 	}
+
+	componentWillReceiveProps = (nextState) => this.setState({categories: nextState.categories})
+
 	render(){
 		let data = this.props.data;
+		let categories = this.state.categories;
 		return <Table>
 	    <TableHeader 
 	    	displaySelectAll={false}
@@ -55,11 +64,14 @@ export default class TableExampleSimple extends Component{
 	      {Object.keys(data).map((e, i) => 
 	      	<TableRow key={i}>
 		      	<TableRowColumn>
-		      		<a href={data[e].url}>{data[e].name}</a>
+		      		<img style={style.img} src={data[e].image} />
+		      		<a style={style.href} href={data[e].url}>{data[e].name}</a>
 		      	</TableRowColumn>
 
 		      	<TableRowColumn>
-		      		{this.state.categories[data[e].category-1].name}
+		      		{Object.keys(categories).map((key) => 
+		      			<p key={key}>{categories[key].id == data[e].category ? categories[key].name : ''}</p>
+		      		)}
 		      	</TableRowColumn>
 
 		      	<TableRowColumn>

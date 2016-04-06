@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { categories, filtered } from '../query';
+import { filtered } from '../query';
 
 export default class Filter extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			data: categories()
+			data: this.props.categories
 		}
 	}
 
 	handleClick = (e) => this.props.filter(filtered(e), e);
+
+	componentWillReceiveProps = (categories) => this.setState({data: categories.categories})
 
 	render(){
 		let current = this.props.filtered;

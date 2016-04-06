@@ -49,3 +49,35 @@ export function deleted(id){
 	});
 	return result;
 }
+
+export function deletedCategories(id){
+	let result;
+	$.ajax({
+		type: 'DELETE',
+		url: '/api/categories/' + id + '/',
+		async: false,
+		success: function(){
+			result = true;
+		},
+		error: function(){
+			result = false;
+		}
+	});
+	return result;
+}
+
+export function addCategories(name){
+	let result;
+	$.ajax({
+		type: 'POST',
+		url: '/api/categories/',
+		data: {name: name},
+		success: function(data){
+			result = true;
+		},
+		error: function(error){
+			result = false;
+		}
+	});
+	return result;
+}
